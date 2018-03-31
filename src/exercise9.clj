@@ -1,13 +1,19 @@
 (ns exercise9)
 
-(defn things
-  "Returns a legend"
+(defmulti things (fn [algo] (type algo)))
+
+(defmethod things java.lang.String
   [algo]
-  (if (string? algo)
-      "Soy un String"
-      (if (vector? algo)
-          "Soy un Vector"
-          (if (map? algo)
-              "Soy un Map"
-              "Soy un default")))
-)
+	"Soy un String")
+
+(defmethod things clojure.lang.PersistentArrayMap
+  [algo]
+	"Soy un Map")
+
+(defmethod things clojure.lang.PersistentVector
+  [algo]
+  "Soy un Vector")
+
+(defmethod things :default
+  [algo]
+  "Soy un default")

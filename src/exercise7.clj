@@ -1,9 +1,13 @@
 (ns exercise7)
 
-(defn fmap
+(defmulti fmap
   "Maps values in a sequence."
+  (fn [f secuencia] (type secuencia)))
+
+(defmethod fmap clojure.lang.PersistentArrayMap
   [f secuencia]
-  (if (map? secuencia)
-    (into {} (for [[clave valor] secuencia] [clave (inc valor)]))
-    (map f secuencia))
-)
+	(into {} (for [[clave valor] secuencia] [clave (inc valor)])))
+
+(defmethod fmap :default
+  [f secuencia]
+  (map f secuencia))
